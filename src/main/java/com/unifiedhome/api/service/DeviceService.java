@@ -2,6 +2,7 @@ package com.unifiedhome.api.service;
 
 import com.unifiedhome.api.dto.device.DeviceCreateRequest;
 import com.unifiedhome.api.dto.device.DeviceResponse;
+import com.unifiedhome.api.dto.device.DeviceStateRequest;
 import com.unifiedhome.api.dto.device.DeviceUpdateRequest;
 import com.unifiedhome.api.exception.ResourceNotFoundException;
 import com.unifiedhome.api.model.Device;
@@ -127,5 +128,21 @@ public class DeviceService {
                 device.isEnabled()
         );
     }
-    
+
+    public DeviceResponse updateDeviceState(
+            Long id,
+            DeviceStateRequest request) {
+
+        Device device = deviceRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Device with id " + id + " not found"));
+
+        device.setEnabled(request.getEnabled());
+
+        Device updatedDevice = deviceRepository.save(device);
+
+        return toResponse(updatedDevice);
+    }
+
 }

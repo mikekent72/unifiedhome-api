@@ -2,6 +2,7 @@ package com.unifiedhome.api.controller;
 
 import com.unifiedhome.api.dto.device.DeviceCreateRequest;
 import com.unifiedhome.api.dto.device.DeviceResponse;
+import com.unifiedhome.api.dto.device.DeviceStateRequest;
 import com.unifiedhome.api.dto.device.DeviceUpdateRequest;
 import com.unifiedhome.api.model.DeviceType;
 import com.unifiedhome.api.service.DeviceService;
@@ -77,5 +78,15 @@ public class DeviceController {
 
         return ResponseEntity.noContent().build();
     }
-    
+
+    @PutMapping("/{id}/state")
+    public ResponseEntity<DeviceResponse> updateDeviceState(
+            @PathVariable Long id,
+            @Valid @RequestBody DeviceStateRequest request) {
+
+        return ResponseEntity.ok(
+                deviceService.updateDeviceState(id, request)
+        );
+    }
+
 }
